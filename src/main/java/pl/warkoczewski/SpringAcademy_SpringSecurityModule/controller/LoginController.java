@@ -3,18 +3,25 @@ package pl.warkoczewski.SpringAcademy_SpringSecurityModule.controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.security.Principal;
+
 @RestController
 public class LoginController {
-    @GetMapping("/forAll")
-    public String forAll(){
-        return "forAll";
+
+    @GetMapping("/admin")
+    public String getAdminPage(Principal principal){
+        return "forAdmin " + principal.getName();
     }
-    @GetMapping("/forAdmin")
-    public String forAdmin(){
-        return "forAdmin";
+    @GetMapping("/user")
+    public String getUserPage(Principal principal){
+        return "forUser " + principal.getName();
     }
-    @GetMapping("/forUser")
-    public String forUser(){
-        return "forUser";
+    @GetMapping("/alien")
+    public String getAlienPage(){
+        return "Hi Alien";
+    }
+    @GetMapping("/bye")
+    public String getByePage(){
+        return "bye bye!";
     }
 }
