@@ -1,4 +1,4 @@
-package pl.warkoczewski.SpringAcademy_SpringSecurityModule;
+package pl.warkoczewski.SpringAcademy_SpringSecurityModule.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
