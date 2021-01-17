@@ -15,7 +15,7 @@
             >Role</label><br>
             <select th:field="*{role}">
                 <!--/*@thymesVar id="values" type="pl.warkoczewski.SpringAcademy_SpringSecurityModule.model.Role"*/-->
-                <option th:each="role_ : ${T(pl.warkoczewski.SpringAcademy_SpringSecurityModule.model.Role.values()}" th:text="${role_}" th:value="${role_}"></option>
+                <option th:each="role : ${T(pl.warkoczewski.SpringAcademy_SpringSecurityModule.model.Role).values()}" th:text="${role}" th:value="${role}"></option>
             </select>
         </div><br>
         <div class="input-group">
