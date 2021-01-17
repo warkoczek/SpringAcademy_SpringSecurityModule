@@ -8,10 +8,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import pl.warkoczewski.SpringAcademy_SpringSecurityModule.dto.RegistrationDataDTO;
 import pl.warkoczewski.SpringAcademy_SpringSecurityModule.model.Role;
+import pl.warkoczewski.SpringAcademy_SpringSecurityModule.service.impl.RegistrationServiceImpl;
 
 @Controller
 @RequestMapping("/register")
 public class RegistrationController {
+    private final RegistrationServiceImpl registrationService;
+
+    public RegistrationController(RegistrationServiceImpl registrationService) {
+        this.registrationService = registrationService;
+    }
+
     @GetMapping("/sign_up")
     public String displayRegistrationPage(Model model){
         model.addAttribute("registrationDataDTO", new RegistrationDataDTO());
@@ -20,6 +27,7 @@ public class RegistrationController {
     }
     @PostMapping("/sign_up")
     public String processRegistrationForm(@ModelAttribute("registrationDataDTO") RegistrationDataDTO registrationDataDTO){
-        return "/home/home";
+        registrationService.register(registrationDataDTO);
+        return "redirect:/home/home";
     }
 }
