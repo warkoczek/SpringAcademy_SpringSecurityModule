@@ -1,10 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{fragments/main :: headFragment}">
     <meta charset="UTF-8">
     <title>Sign up</title>
 </head>
 <body>
-
+<header th:insert="~{fragments/main :: headerFragment}"></header><br><br><br>
+<div class="container">
+    <h2>Please sign up:</h2><br>
+    <form th:action="@{/register/register}" th:method="post" th:object="${registrationDataDTO}">
+        <div class="input-group">
+            <label class="control-label" for="username"
+            >Username</label>
+            <input id="username" class="form-control" type="text" th:field="*{username}" required autofocus="autofocus"/>
+            <span th:if="${#fields.hasErrors()}" th:errors="*{username}">Incorrect username</span>
+        </div><br>
+        <div class="input-group">
+            <label class="control-label" for="email"
+            >Email</label>
+            <input id="email" class="form-control" type="text" th:field="*{email}" required autofocus="autofocus"/>
+            <span th:if="${#fields.hasErrors()}" th:errors="*{email}">Incorrect email</span>
+        </div><br>
+        <div class="input-group">
+            <label class="control-label" for="password"
+            >Password</label>
+            <input id="password" class="form-control" type="text" th:field="*{password}" required autofocus="autofocus"/>
+            <span th:if="${#fields.hasErrors()}" th:errors="*{password}">Incorrect password</span>
+        </div><br>
+        <div class="input-group">
+            <label class="control-label" for="rePassword"
+            >Repeat password</label>
+            <input id="rePassword" class="form-control" type="text" th:field="*{rePassword}" required autofocus="autofocus"/>
+            <span th:if="${#fields.hasErrors()}" th:errors="*{rePassword}">Incorrect rePassword</span>
+        </div><br>
+        <div class="form-group">
+            <button type="submit" class="btn btn-success">Register</button>
+        </div>
+    </form>
+</div>
+<footer th:insert="~{fragments/main :: footerFragment}"></footer>
 </body>
 </html>
