@@ -9,7 +9,15 @@
 <header th:insert="~{fragments/main :: headerFragment}"></header><br><br><br>
 <div class="container">
     <h2>Please sign up:</h2><br>
-    <form th:action="@{/register/register}" th:method="post" th:object="${registrationDataDTO}">
+    <form th:action="@{/register/sign_up}" th:method="post" th:object="${registrationDataDTO}">
+        <div class="input-group">
+            <label class="control-label" th:for="role"
+            >Role</label><br>
+            <select th:field="*{role}">
+                <!--/*@thymesVar id="values" type="pl.warkoczewski.SpringAcademy_SpringSecurityModule.model.Role"*/-->
+                <option th:each="role_ : ${T(pl.warkoczewski.SpringAcademy_SpringSecurityModule.model.Role.values()}" th:text="${role_}" th:value="${role_}"></option>
+            </select>
+        </div><br>
         <div class="input-group">
             <label class="control-label" for="username"
             >Username</label>

@@ -8,9 +8,10 @@ import pl.warkoczewski.SpringAcademy_SpringSecurityModule.model.Role;
 @NoArgsConstructor@AllArgsConstructor
 @Data
 public class RegistrationDataDTO {
+    private Role role;
     private String username;
     private String email;
     private String password;
     private String rePassword;
-    private Role role;
+
 }

@@ -20,8 +20,8 @@ public class RegistrationServiceImpl implements RegistrationService {
         this.passwordEncoder = passwordEncoder;
         this.modelMapper = modelMapper;
         RegistrationDataDTO registrationDataDTO =
-                new RegistrationDataDTO("warkocz", "awarkoczewski@yahoo.com", "123", "123"
-                        , Role.ROLE_USER);
+                new RegistrationDataDTO(Role.ROLE_USER, "warkocz", "awarkoczewski@yahoo.com", "123", "123"
+                        );
         register(registrationDataDTO);
     }
 
