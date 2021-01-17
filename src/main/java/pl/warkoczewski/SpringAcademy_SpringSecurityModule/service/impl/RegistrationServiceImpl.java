@@ -20,9 +20,17 @@ public class RegistrationServiceImpl implements RegistrationService {
         this.passwordEncoder = passwordEncoder;
         this.modelMapper = modelMapper;
         RegistrationDataDTO registrationDataDTO =
-                new RegistrationDataDTO(Role.ROLE_ADMIN, "warkocz", "awarkoczewski@yahoo.com", "123", "123"
+                new RegistrationDataDTO(Role.ROLE_USER, "uwarkocz", "awarkoczewski@yahoo.com", "123", "123"
                         );
         register(registrationDataDTO);
+        RegistrationDataDTO registrationDataDTO1 =
+                new RegistrationDataDTO(Role.ROLE_ADMIN, "awarkocz", "awarkoczewsk@yahoo.com", "456", "456"
+                );
+        register(registrationDataDTO1);
+        RegistrationDataDTO registrationDataDTO2 =
+                new RegistrationDataDTO(Role.ROLE_ADMIN_HEAD, "ahwarkocz", "awarkoczews@yahoo.com", "789", "789"
+                );
+        register(registrationDataDTO2);
     }
 
     @Override
