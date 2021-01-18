@@ -7,16 +7,13 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
-import org.springframework.security.web.header.writers.ClearSiteDataHeaderWriter;
-
-import static org.springframework.security.web.header.writers.ClearSiteDataHeaderWriter.Directive.*;
 
 @Configuration
 @EnableWebSecurity
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private final UserDetailsService userDetailsService;
 
-    public WebSecurityConfig(UserDetailsService userDetailsService) {
+    public SecurityConfiguration(UserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
     }
 
@@ -31,6 +28,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .antMatchers("/home/home").permitAll()
         .antMatchers("/search/search").hasAnyRole("USER", "ADMIN", "ADMIN_HEAD")
         .antMatchers("/admin/admin") .hasAnyRole("ADMIN", "ADMIN_HEAD")
+                .antMatchers("/admin/adminHead") .hasRole("ADMIN_HEAD")
         .and()
         .formLogin().loginPage("/login/sign_in")
                 .defaultSuccessUrl("/home/home")
