@@ -11,6 +11,7 @@ public class WebConfiguration implements WebMvcConfigurer {
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
+        //admins
         registry.addViewController("/admin/admin").setViewName("/admin/admin");
         registry.addViewController("/admin/adminHead").setViewName("/admin/adminHead");
     }
