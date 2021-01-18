@@ -3,11 +3,15 @@ package pl.warkoczewski.SpringAcademy_SpringSecurityModule.service.impl;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 import pl.warkoczewski.SpringAcademy_SpringSecurityModule.dto.RegistrationDataDTO;
 import pl.warkoczewski.SpringAcademy_SpringSecurityModule.model.Role;
 import pl.warkoczewski.SpringAcademy_SpringSecurityModule.model.User;
 import pl.warkoczewski.SpringAcademy_SpringSecurityModule.repository.UserRepository;
 import pl.warkoczewski.SpringAcademy_SpringSecurityModule.service.RegistrationService;
+import pl.warkoczewski.SpringAcademy_SpringSecurityModule.validation.groups.BusinessLogic;
+
+import javax.validation.Valid;
 
 @Service
 public class RegistrationServiceImpl implements RegistrationService {
@@ -34,7 +38,8 @@ public class RegistrationServiceImpl implements RegistrationService {
     }
 
     @Override
-    public void register(RegistrationDataDTO registrationDataDTO) {
+    @Validated({BusinessLogic.class})
+    public void register(@Valid RegistrationDataDTO registrationDataDTO) {
         User user = modelMapper.map(registrationDataDTO, User.class);
         user.setPassword(passwordEncoder.encode(registrationDataDTO.getPassword()));
         userRepository.save(user);
