@@ -12,6 +12,7 @@ import pl.warkoczewski.SpringAcademy_SpringSecurityModule.dto.RegistrationDataDT
 import pl.warkoczewski.SpringAcademy_SpringSecurityModule.model.Role;
 import pl.warkoczewski.SpringAcademy_SpringSecurityModule.service.impl.RegistrationServiceImpl;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -35,7 +36,7 @@ public class RegistrationController {
     }
     @PostMapping("/sign_up")
     public ModelAndView processRegistrationForm(@ModelAttribute("registrationDataDTO") @Valid RegistrationDataDTO registrationDataDTO
-            , BindingResult bindingResult, ModelAndView modelAndView, HttpServletRequest request){
+            , BindingResult bindingResult, ModelAndView modelAndView, HttpServletRequest request) throws MessagingException {
         if(bindingResult.hasErrors()){
              modelAndView.setViewName("/register/sign_up");
              return modelAndView;
