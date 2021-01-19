@@ -12,6 +12,7 @@ import pl.warkoczewski.SpringAcademy_SpringSecurityModule.dto.RegistrationDataDT
 import pl.warkoczewski.SpringAcademy_SpringSecurityModule.model.Role;
 import pl.warkoczewski.SpringAcademy_SpringSecurityModule.service.impl.RegistrationServiceImpl;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @Controller
@@ -34,12 +35,12 @@ public class RegistrationController {
     }
     @PostMapping("/sign_up")
     public ModelAndView processRegistrationForm(@ModelAttribute("registrationDataDTO") @Valid RegistrationDataDTO registrationDataDTO
-            , BindingResult bindingResult, ModelAndView modelAndView){
+            , BindingResult bindingResult, ModelAndView modelAndView, HttpServletRequest request){
         if(bindingResult.hasErrors()){
              modelAndView.setViewName("/register/sign_up");
              return modelAndView;
         }
-        registrationService.register(registrationDataDTO);
+        registrationService.register(registrationDataDTO, request);
         modelAndView.setViewName("redirect:/home/home");
         return modelAndView;
     }
