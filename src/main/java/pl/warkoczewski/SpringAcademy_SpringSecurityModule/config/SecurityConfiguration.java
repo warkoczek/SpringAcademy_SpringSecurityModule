@@ -9,7 +9,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 
 
 @Configuration
-@EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private final UserDetailsService userDetailsService;
 
@@ -32,6 +31,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .and()
         .formLogin().loginPage("/login/sign_in")
                 .defaultSuccessUrl("/home/home")
+                .usernameParameter("username")
+                .passwordParameter("password")
                 .permitAll()
         .and()
         .logout()
