@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 import pl.warkoczewski.SpringAcademy_SpringSecurityModule.dto.RegistrationDataDTO;
 import pl.warkoczewski.SpringAcademy_SpringSecurityModule.model.Role;
 import pl.warkoczewski.SpringAcademy_SpringSecurityModule.service.impl.RegistrationServiceImpl;
@@ -23,17 +24,23 @@ public class RegistrationController {
     }
 
     @GetMapping("/sign_up")
-    public String displayRegistrationPage(Model model){
-        model.addAttribute("registrationDataDTO", new RegistrationDataDTO());
-        model.addAttribute("roles", Role.values());
-        return "/register/sign_up";
+    public ModelAndView displayRegistrationPage(ModelAndView modelAndView){
+        /*model.addAttribute("registrationDataDTO", new RegistrationDataDTO());
+        model.addAttribute("roles", Role.values());*/
+        modelAndView.addObject("registrationDataDTO", new RegistrationDataDTO());
+        modelAndView.addObject("roles", Role.values());
+        modelAndView.setViewName("/register/sign_up");
+        return modelAndView;
     }
     @PostMapping("/sign_up")
-    public String processRegistrationForm(@ModelAttribute("registrationDataDTO") @Valid RegistrationDataDTO registrationDataDTO, BindingResult bindingResult){
+    public ModelAndView processRegistrationForm(@ModelAttribute("registrationDataDTO") @Valid RegistrationDataDTO registrationDataDTO
+            , BindingResult bindingResult, ModelAndView modelAndView){
         if(bindingResult.hasErrors()){
-            return "/register/sign_up";
+             modelAndView.setViewName("/register/sign_up");
+             return modelAndView;
         }
         registrationService.register(registrationDataDTO);
-        return "redirect:/home/home";
+        modelAndView.setViewName("redirect:/home/home");
+        return modelAndView;
     }
 }

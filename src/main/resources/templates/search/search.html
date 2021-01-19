@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:insert="~{fragments/signed_inAll :: headFragment}">
+<head th:insert="~{fragments/signedIn/signed_inAll :: headFragment}">
     <meta charset="UTF-8">
     <title>Search</title>
 </head>
 <body>
-<header th:insert="~{fragments/signed_inAll :: headerFragment}"></header><br><br><br>
+<header th:insert="~{fragments/signedIn/signed_inAll :: headerFragment}"></header><br><br><br>
+<h1>Page accessible to user, admin and head admin</h1>
 <h1>Please search:</h1>
 
-<footer th:insert="~{fragments/signed_inAll :: footerFragment}"></footer>
+<footer th:insert="~{fragments/signedIn/signed_inAll :: footerFragment}"></footer>
 </body>
 </html>

@@ -8,8 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+
 
 @Entity
 @Getter
@@ -29,6 +28,7 @@ public class User implements UserDetails {
     private String password;
     @Enumerated(EnumType.STRING)
     private Role role;
+    private boolean isEnabled;
 
     public User(String username, String email, String password, Role role) {
         this.username = username;

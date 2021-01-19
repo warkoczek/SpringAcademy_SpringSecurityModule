@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:insert="~{fragments/signed_inAdmin :: headFragment}">
+<head th:insert="~{fragments/signedIn/signed_inAdmin :: headFragment}">
     <meta charset="UTF-8">
     <title>Task2_User_Admin</title>
 </head>
 <body>
-<header th:insert="~{fragments/signed_inAdmin :: headerFragment}"></header><br><br><br>
-<h1>Welcome Admin</h1>
-<footer th:insert="~{fragments/signed_inAdmin :: footerFragment}"></footer>
+<header th:insert="~{fragments/signedIn/signed_inAdmin :: headerFragment}"></header><br><br><br>
+<h1>Page accessible to admin and head admin</h1>
+<h1>Welcome Admin and/or Head Admin</h1>
+<footer th:insert="~{fragments/signedIn/signed_inAdmin :: footerFragment}"></footer>
 </body>
 </html>
