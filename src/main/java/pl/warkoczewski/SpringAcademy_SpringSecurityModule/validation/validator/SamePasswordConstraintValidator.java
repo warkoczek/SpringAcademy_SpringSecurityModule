@@ -10,14 +10,20 @@ public class SamePasswordConstraintValidator implements ConstraintValidator<Same
 
    @Override
    public void initialize(SamePassword constraintAnnotation) {
-
    }
-
    @Override
    public boolean isValid(RegistrationDataDTO registrationDataDTO, ConstraintValidatorContext context) {
-      if(registrationDataDTO.getPassword() != null && registrationDataDTO.getRePassword() != null){
-
+      if(registrationDataDTO.getPassword() == null || registrationDataDTO.getRePassword() == null){
+         return true;
       }
-      return false;
+      else{
+         boolean valid = registrationDataDTO.getPassword().equals(registrationDataDTO.getRePassword());
+         if(!valid){
+            context.disableDefaultConstraintViolation();
+            context.buildConstraintViolationWithTemplate(" Confirmed password does not match password!")
+                    .addPropertyNode("rePassword").addConstraintViolation();
+         }
+         return valid;
+      }
    }
 }

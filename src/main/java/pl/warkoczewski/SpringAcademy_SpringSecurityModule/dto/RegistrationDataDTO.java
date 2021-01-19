@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import pl.warkoczewski.SpringAcademy_SpringSecurityModule.model.Role;
 import pl.warkoczewski.SpringAcademy_SpringSecurityModule.validation.constraint.email.UniqueEmail;
+import pl.warkoczewski.SpringAcademy_SpringSecurityModule.validation.constraint.password.SamePassword;
 import pl.warkoczewski.SpringAcademy_SpringSecurityModule.validation.constraint.password.ValidPassword;
 import pl.warkoczewski.SpringAcademy_SpringSecurityModule.validation.constraint.username.UniqueUsername;
 
@@ -14,7 +15,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @NoArgsConstructor@AllArgsConstructor
-@Data
+@Data@SamePassword
 public class RegistrationDataDTO {
     private Role role;
     @NotNull

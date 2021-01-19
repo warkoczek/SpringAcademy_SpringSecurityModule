@@ -5,6 +5,7 @@ import pl.warkoczewski.SpringAcademy_SpringSecurityModule.validation.constraint.
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -27,7 +28,8 @@ public class ValidPasswordConstraintValidator implements ConstraintValidator<Val
       if(ruleResult.isValid()){
          return true;
       }
-      List<String> messages = passwordValidator.getMessages(ruleResult);
+      List<String> messages = new ArrayList<>();
+              messages.addAll(passwordValidator.getMessages(ruleResult));
       String messageTemplate = String.join(",", messages);
       context.buildConstraintViolationWithTemplate(messageTemplate)
               .addConstraintViolation()

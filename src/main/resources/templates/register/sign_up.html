@@ -22,7 +22,7 @@
             <label class="control-label" for="username"
             >Username</label>
             <input id="username" class="form-control" type="text" th:field="*{username}" required autofocus="autofocus"/>
-            <span style="color: red" th:if="${#fields.hasErrors()}" th:errors="*{username}">Incorrect username</span>
+            <span style="color: red" th:if="${#fields.hasErrors()}"th:errors="*{username}">Incorrect username</span>
         </div><br>
         <div class="input-group">
             <label class="control-label" for="email"
@@ -31,13 +31,13 @@
             <span style="color: red" th:if="${#fields.hasErrors()}" th:errors="*{email}">Incorrect email</span>
         </div><br>
         <div class="input-group">
-            <label class="control-label" for="password"
+            <label class="control-label" for="password" th:text="#{pages.register.sign_up.password}"
             >Password</label>
             <input id="password" class="form-control" type="text" th:field="*{password}" required autofocus="autofocus"/>
             <span style="color: red" th:if="${#fields.hasErrors()}" th:errors="*{password}">Incorrect password</span>
         </div><br>
         <div class="input-group">
-            <label class="control-label" for="rePassword"
+            <label class="control-label" for="rePassword" th:text="#{pages.register.sign_up.repeat_password}"
             >Repeat password</label>
             <input id="rePassword" class="form-control" type="text" th:field="*{rePassword}" required autofocus="autofocus"/>
             <span style="color: red" th:if="${#fields.hasErrors()}" th:errors="*{rePassword}">Incorrect rePassword</span>
