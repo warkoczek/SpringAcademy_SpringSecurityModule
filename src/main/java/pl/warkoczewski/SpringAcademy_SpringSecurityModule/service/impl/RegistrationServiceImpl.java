@@ -35,26 +35,28 @@ public class RegistrationServiceImpl implements RegistrationService {
         this.modelMapper = modelMapper;
         this.verificationTokenRepository = verificationTokenRepository;
         this.emailSenderService = emailSenderService;
-        RegistrationDataDTO registrationDataDTO =
-                new RegistrationDataDTO(Role.ROLE_USER, "uwarkocz", "awarkoczewski@yahoo.com", "123", "123"
+       /* RegistrationDataDTO registrationDataDTO =
+                new RegistrationDataDTO(Role.ROLE_USER, "uwarkocz", "awarkoczewskiaj@yahoo.com", "123", "123"
                         );
-        register(registrationDataDTO, null);
+        register(registrationDataDTO);
         RegistrationDataDTO registrationDataDTO1 =
                 new RegistrationDataDTO(Role.ROLE_ADMIN, "awarkocz", "awarkoczewsk@yahoo.com", "456", "456"
                 );
-        register(registrationDataDTO1, null);
+        register(registrationDataDTO1);
         RegistrationDataDTO registrationDataDTO2 =
                 new RegistrationDataDTO(Role.ROLE_ADMIN_HEAD, "ahwarkocz", "awarkoczews@yahoo.com", "789", "789"
                 );
-        register(registrationDataDTO2, null);
+        register(registrationDataDTO2);*/
     }
 
     @Override
     @Validated({BusinessLogic.class})
     public void register(@Valid RegistrationDataDTO registrationDataDTO, HttpServletRequest request) throws MessagingException {
         User user = createAndSaveUser(registrationDataDTO);
-        createAndSaveVerificationToken(user);
-        String url = "http://" + request.getServerName() + ":"+ request.getServerPort() + request.getContextPath();
+        VerificationToken token = createAndSaveVerificationToken(user);
+        String url = "http://" + request.getServerName() +
+                ":" + request.getServerPort() +
+                request.getContextPath() + "/verifyToken?token=" + token.getValue();
         emailSenderService.sendEmail(user.getEmail(), "Verification Token", url, false );
 
     }
@@ -63,11 +65,11 @@ public class RegistrationServiceImpl implements RegistrationService {
         user.setPassword(passwordEncoder.encode(registrationDataDTO.getPassword()));
         return userRepository.save(user);
     }
-    private void createAndSaveVerificationToken(User user){
+    private VerificationToken createAndSaveVerificationToken(User user){
         VerificationToken verificationToken = new VerificationToken();
         verificationToken.setUser(user);
         verificationToken.setValue(UUID.randomUUID().toString());
-        verificationTokenRepository.save(verificationToken);
+        return verificationTokenRepository.save(verificationToken);
     }
 
 

@@ -31,4 +31,5 @@ public class RegistrationDataDTO {
     @ValidPassword(message = " Chosen password is not valid! Try different one, please!")
     private String rePassword;
 
+
 }

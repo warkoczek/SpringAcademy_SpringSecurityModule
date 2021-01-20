@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{fragments/main :: headFragment}">
+    <meta charset="UTF-8">
+    <title>Home Page</title>
+</head>
+<body>
+<header th:insert="~{fragments/main :: headerFragment}"></header><br><br><br>
+<h1 th:text="#{pages.register.sign_up_success_verification_Token}"></h1>
+<footer th:insert="~{fragments/main :: footerFragment}"></footer>
+</body>
+</html>

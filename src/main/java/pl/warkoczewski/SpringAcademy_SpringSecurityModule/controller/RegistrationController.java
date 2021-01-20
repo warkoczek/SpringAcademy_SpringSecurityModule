@@ -3,10 +3,7 @@ package pl.warkoczewski.SpringAcademy_SpringSecurityModule.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import pl.warkoczewski.SpringAcademy_SpringSecurityModule.dto.RegistrationDataDTO;
 import pl.warkoczewski.SpringAcademy_SpringSecurityModule.model.Role;
@@ -42,7 +39,15 @@ public class RegistrationController {
              return modelAndView;
         }
         registrationService.register(registrationDataDTO, request);
-        modelAndView.setViewName("redirect:/home/home");
+        modelAndView.setViewName("redirect:/register/success");
         return modelAndView;
+    }
+    @GetMapping("/success")
+    public String registrationSuccessPage(){
+        return "/register/success";
+    }
+    @GetMapping("/verifyToken")
+    public String verifyToken(@RequestParam String token){
+        return "";
     }
 }
