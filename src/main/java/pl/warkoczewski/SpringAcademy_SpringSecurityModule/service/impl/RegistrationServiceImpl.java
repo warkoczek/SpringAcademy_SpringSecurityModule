@@ -5,6 +5,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import pl.warkoczewski.SpringAcademy_SpringSecurityModule.dto.RegistrationDataDTO;
+import pl.warkoczewski.SpringAcademy_SpringSecurityModule.exception.UserVerificationException;
 import pl.warkoczewski.SpringAcademy_SpringSecurityModule.model.Role;
 import pl.warkoczewski.SpringAcademy_SpringSecurityModule.model.User;
 import pl.warkoczewski.SpringAcademy_SpringSecurityModule.model.VerificationToken;
@@ -17,6 +18,7 @@ import pl.warkoczewski.SpringAcademy_SpringSecurityModule.validation.groups.Busi
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -72,5 +74,14 @@ public class RegistrationServiceImpl implements RegistrationService {
         return verificationTokenRepository.save(verificationToken);
     }
 
-
+    @Override
+    public void verifyToken(String token) {
+        Optional<VerificationToken> optionalVerificationToken = verificationTokenRepository.findByValue(token);
+        if(optionalVerificationToken.isPresent()){
+            User user = optionalVerificationToken.get().getUser();
+            user.setEnabled(true);
+            userRepository.save(user);
+        }
+        throw new UserVerificationException("No user with such token");
+    }
 }
