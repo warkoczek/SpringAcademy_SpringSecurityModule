@@ -58,7 +58,7 @@ public class RegistrationServiceImpl implements RegistrationService {
         VerificationToken token = createAndSaveVerificationToken(user);
         String url = "http://" + request.getServerName() +
                 ":" + request.getServerPort() +
-                request.getContextPath() + "/verifyToken?token=" + token.getValue();
+                request.getContextPath() + "/register/verifyToken?token=" + token.getValue();
         emailSenderService.sendEmail(user.getEmail(), "Verification Token", url, false );
 
     }
