@@ -3,7 +3,6 @@ package pl.warkoczewski.SpringAcademy_SpringSecurityModule.config;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
-@Configuration
 public class EmailConfiguration {
     @Value("smtp.mailtrap.io")
     private String host;

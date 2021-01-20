@@ -55,20 +55,26 @@ public class RegistrationServiceImpl implements RegistrationService {
     @Override
     @Validated({BusinessLogic.class})
     public void register(@Valid RegistrationDataDTO registrationDataDTO, HttpServletRequest request) throws MessagingException {
-        User user = createAndSaveUser(registrationDataDTO);
-        VerificationToken token = createAndSaveVerificationToken(user);
+        User user = addUser(registrationDataDTO);
+        VerificationToken token = addToken(user);
+        String link = getLink(request, token);
+        emailSenderService.sendEmail(user.getEmail(), "Verification Token", link, true );
+
+    }
+
+    private String getLink(HttpServletRequest request, VerificationToken token) {
         String url = "http://" + request.getServerName() +
                 ":" + request.getServerPort() +
                 request.getContextPath() + "/register/verifyToken?token=" + token.getValue();
-        emailSenderService.sendEmail(user.getEmail(), "Verification Token", url, false );
-
+        return "<html><a href="+url+">Click this link to be able to sign in.</a></html>";
     }
-    private User createAndSaveUser(RegistrationDataDTO registrationDataDTO){
+
+    private User addUser(RegistrationDataDTO registrationDataDTO){
         User user = modelMapper.map(registrationDataDTO, User.class);
         user.setPassword(passwordEncoder.encode(registrationDataDTO.getPassword()));
         return userRepository.save(user);
     }
-    private VerificationToken createAndSaveVerificationToken(User user){
+    private VerificationToken addToken(User user){
         VerificationToken verificationToken = new VerificationToken();
         verificationToken.setUser(user);
         verificationToken.setValue(UUID.randomUUID().toString());

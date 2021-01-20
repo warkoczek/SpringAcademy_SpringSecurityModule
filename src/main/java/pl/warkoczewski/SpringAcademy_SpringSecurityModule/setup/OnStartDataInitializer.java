@@ -29,16 +29,16 @@ public class OnStartDataInitializer implements ApplicationRunner {
     @Transactional
     public void run(ApplicationArguments args) throws Exception {
         List<User> users = createUsers();
-        log.info("Before users creation {}", users);
+        log.info("After users creation {}", users);
         List<VerificationToken> tokens = createTokens(users);
-        log.info("Before users creation {}", tokens);
+        log.info("After tokens creation {}", tokens);
 
     }
 
     private List<User> createUsers() {
         List<User> users = Arrays.asList(
-                new User("warkocz", "awarkoczewski@gmail.com", passwordEncoder.encode("Joleczka8("), Role.ROLE_ADMIN, false)
-                , new User("markocz", "andresik82@gmail.com", passwordEncoder.encode("Joleczka8&"), Role.ROLE_USER, false));
+                new User("warkocz", "awarkoczewski@yahoo.com", passwordEncoder.encode("Joleczka8("), Role.ROLE_ADMIN, true)
+                , new User("markocz", "andresik82@gmail.com", passwordEncoder.encode("Joleczka8&"), Role.ROLE_USER, true));
 
         return userRepository.saveAll(users);
     }
