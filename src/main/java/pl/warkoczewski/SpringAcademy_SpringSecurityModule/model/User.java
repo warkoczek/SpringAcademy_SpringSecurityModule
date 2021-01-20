@@ -30,11 +30,12 @@ public class User implements UserDetails {
     private Role role;
     private boolean isEnabled;
 
-    public User(String username, String email, String password, Role role) {
+    public User(String username, String email, String password, Role role, boolean isEnabled) {
         this.username = username;
         this.email = email;
         this.password = password;
         this.role = role;
+        this.isEnabled = isEnabled;
     }
 
     @Override

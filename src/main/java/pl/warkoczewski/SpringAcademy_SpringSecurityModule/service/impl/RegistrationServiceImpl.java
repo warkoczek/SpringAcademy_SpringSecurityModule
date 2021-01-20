@@ -1,12 +1,12 @@
 package pl.warkoczewski.SpringAcademy_SpringSecurityModule.service.impl;
 
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import pl.warkoczewski.SpringAcademy_SpringSecurityModule.dto.RegistrationDataDTO;
 import pl.warkoczewski.SpringAcademy_SpringSecurityModule.exception.UserVerificationException;
-import pl.warkoczewski.SpringAcademy_SpringSecurityModule.model.Role;
 import pl.warkoczewski.SpringAcademy_SpringSecurityModule.model.User;
 import pl.warkoczewski.SpringAcademy_SpringSecurityModule.model.VerificationToken;
 import pl.warkoczewski.SpringAcademy_SpringSecurityModule.repository.UserRepository;
@@ -22,6 +22,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
+@Slf4j
 public class RegistrationServiceImpl implements RegistrationService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -79,9 +80,13 @@ public class RegistrationServiceImpl implements RegistrationService {
         Optional<VerificationToken> optionalVerificationToken = verificationTokenRepository.findByValue(token);
         if(optionalVerificationToken.isPresent()){
             User user = optionalVerificationToken.get().getUser();
+            log.info("User is not enabled yet {}", user);
             user.setEnabled(true);
             userRepository.save(user);
+            log.info("User is enabled {}", user);
+        }else {
+            throw new UserVerificationException("No such user token");
         }
-        throw new UserVerificationException("No user with such token");
+
     }
 }

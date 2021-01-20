@@ -47,8 +47,8 @@ public class RegistrationController {
         return new ModelAndView("/register/success");
     }
     @GetMapping("/verifyToken")
-    public ModelAndView verifyToken(@RequestParam String token){
+    public String verifyToken(@RequestParam String token){
         registrationService.verifyToken(token);
-        return new ModelAndView("redirect:/login/sign_in");
+        return "redirect:/login/sign_in";
     }
 }
