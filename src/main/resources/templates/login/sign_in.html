@@ -8,6 +8,7 @@
 <body>
 <header th:insert="~{fragments/main :: headerFragment}"></header><br><br><br>
 <div class="container">
+    <h1></h1>
     <h2>Please sign in:</h2><br>
     <form th:action="@{/login/sign_in}" th:method="post" th:object="${signInDataDTO}">
         <div class="input-group">

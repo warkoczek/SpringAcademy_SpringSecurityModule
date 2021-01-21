@@ -37,9 +37,9 @@ public class OnStartDataInitializer implements ApplicationRunner {
 
     private List<User> createUsers() {
         List<User> users = Arrays.asList(
-                new User("warkocz", "awarkoczewski@yahoo.com", passwordEncoder.encode("Joleczka8("), Role.ROLE_ADMIN, true)
+                new User("wojtek", "wojtek@yahoo.com", passwordEncoder.encode("Wojteczek8("), Role.ROLE_ADMIN_HEAD, true)
+                , new User("warkocz", "awarkoczewski@yahoo.com", passwordEncoder.encode("Joleczka8("), Role.ROLE_ADMIN, true)
                 , new User("markocz", "andresik82@gmail.com", passwordEncoder.encode("Joleczka8&"), Role.ROLE_USER, true));
-
         return userRepository.saveAll(users);
     }
     private List<VerificationToken> createTokens(List<User> users){

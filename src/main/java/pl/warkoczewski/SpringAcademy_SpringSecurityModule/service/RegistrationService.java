@@ -7,5 +7,5 @@ import javax.servlet.http.HttpServletRequest;
 
 public interface RegistrationService {
     void register(RegistrationDataDTO registrationDataDTO, HttpServletRequest request) throws MessagingException;
-    void verifyToken(String token);
+
 }
