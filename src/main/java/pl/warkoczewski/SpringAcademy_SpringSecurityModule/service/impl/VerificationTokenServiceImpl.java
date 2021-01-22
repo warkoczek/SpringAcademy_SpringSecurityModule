@@ -2,7 +2,7 @@ package pl.warkoczewski.SpringAcademy_SpringSecurityModule.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import pl.warkoczewski.SpringAcademy_SpringSecurityModule.exception.UserVerificationTokenException;
+import pl.warkoczewski.SpringAcademy_SpringSecurityModule.exception.VerificationTokenException;
 import pl.warkoczewski.SpringAcademy_SpringSecurityModule.model.Role;
 import pl.warkoczewski.SpringAcademy_SpringSecurityModule.model.User;
 import pl.warkoczewski.SpringAcademy_SpringSecurityModule.model.VerificationToken;
@@ -10,7 +10,6 @@ import pl.warkoczewski.SpringAcademy_SpringSecurityModule.repository.UserReposit
 import pl.warkoczewski.SpringAcademy_SpringSecurityModule.repository.VerificationTokenRepository;
 import pl.warkoczewski.SpringAcademy_SpringSecurityModule.service.VerificationTokenService;
 
-import java.util.Optional;
 import java.util.UUID;
 @Service
 @Slf4j
@@ -33,13 +32,7 @@ public class VerificationTokenServiceImpl implements VerificationTokenService {
 
     @Override
     public void verifyUserToken(String token) {
-        Optional<VerificationToken> optionalVerificationToken = verificationTokenRepository.findByValue(token);
-        User user;
-        if(optionalVerificationToken.isPresent()){
-            user = optionalVerificationToken.get().getUser();
-        }else {
-            throw new UserVerificationTokenException("Verification Token with this value does not exist");
-        }
+        User user = getUser(token);
         if(!isAuthorizedAndEnabledAsAdmin(user)){
             user.setEnabled(true);
             user.setRole(Role.ROLE_USER);
@@ -47,21 +40,21 @@ public class VerificationTokenServiceImpl implements VerificationTokenService {
         }
 
     }
+
     @Override
     public void verifyAdminToken(String token) {
-        Optional<VerificationToken> optionalVerificationToken = verificationTokenRepository.findByValue(token);
-        User user;
-        if(optionalVerificationToken.isPresent()){
-            user = optionalVerificationToken.get().getUser();
-        }else {
-            throw new UserVerificationTokenException("No such a user token");
-        }
+        User user = getUser(token);
         if(!isAuthorizedAndEnabledAsAdmin(user)){
             user.setEnabled(true);
             user.setRole(Role.ROLE_ADMIN);
             userRepository.save(user);
         }
 
+    }
+    private User getUser(String token) {
+        return verificationTokenRepository.findByValue(token)
+                .orElseThrow(()-> new VerificationTokenException("Verification Token with this value does not exist"))
+                .getUser();
     }
     private boolean isAuthorizedAndEnabledAsAdmin(User user){
         return user.getRole().equals(Role.ROLE_ADMIN) && user.isEnabled();
