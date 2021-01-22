@@ -32,31 +32,43 @@ public class VerificationTokenServiceImpl implements VerificationTokenService {
 
     @Override
     public void verifyUserToken(String token) {
+        updateUser(token);
+        deleteTokenById(token);
+
+    }
+    @Override
+    public void verifyAdminToken(String token) {
+        updateAdmin(token);
+        deleteTokenById(token);
+
+    }
+    private VerificationToken getVerificationToken(String token){
+        return verificationTokenRepository.findByValue(token)
+                .orElseThrow(()-> new VerificationTokenException("Verification Token with this value does not exist"));
+    }
+    private User getUser(String token) {
+        return getVerificationToken(token).getUser();
+    }
+    private boolean isAuthorizedAndEnabledAsAdmin(User user){
+        return user.getRole().equals(Role.ROLE_ADMIN) && user.isEnabled();
+    }
+    private User updateUser(String token){
         User user = getUser(token);
         if(!isAuthorizedAndEnabledAsAdmin(user)){
             user.setEnabled(true);
             user.setRole(Role.ROLE_USER);
-            userRepository.save(user);
         }
-
+        return userRepository.save(user);
     }
-
-    @Override
-    public void verifyAdminToken(String token) {
+    private User updateAdmin(String token){
         User user = getUser(token);
-        if(!isAuthorizedAndEnabledAsAdmin(user)){
+        if(!isAuthorizedAndEnabledAsAdmin(user)) {
             user.setEnabled(true);
             user.setRole(Role.ROLE_ADMIN);
-            userRepository.save(user);
         }
-
+        return userRepository.save(user);
     }
-    private User getUser(String token) {
-        return verificationTokenRepository.findByValue(token)
-                .orElseThrow(()-> new VerificationTokenException("Verification Token with this value does not exist"))
-                .getUser();
-    }
-    private boolean isAuthorizedAndEnabledAsAdmin(User user){
-        return user.getRole().equals(Role.ROLE_ADMIN) && user.isEnabled();
+    private void deleteTokenById(String token){
+        verificationTokenRepository.deleteById(getVerificationToken(token).getId());
     }
 }
