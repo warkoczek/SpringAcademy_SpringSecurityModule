@@ -23,6 +23,19 @@
             <input id="password" name="password" class="form-control" type="text" th:field="*{password}" required autofocus="autofocus"/>
             <span th:if="${#fields.hasErrors()}" th:errors="*{password}">Incorrect password</span>
         </div><br>
+        <div class="input-group">
+            <label class="control-label" for="remember-me"
+            >Remember me:</label>
+            <input id="remember-me" name="remember-me" class="form-control" type="checkbox" required autofocus="autofocus"/>
+        </div><br>
+        <div class="input-group">
+            <label class="control-label" th:for="tokenValidity"
+            >Remember me for:</label><br>
+            <select th:field="*{tokenValidity}">
+                <!--/*@thymesVar id="values" type="pl.warkoczewski.SpringAcademy_SpringSecurityModule.model.TokenValidity"*/-->
+                <option th:each="tokenValidity : ${T(pl.warkoczewski.SpringAcademy_SpringSecurityModule.model.TokenValidity).values()}" th:text="${tokenValidity}" th:value="${tokenValidity}"></option>
+            </select>
+        </div><br>
         <div class="form-group">
             <button type="submit" class="btn btn-success">Sign in</button>
         </div>
