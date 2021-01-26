@@ -11,7 +11,6 @@ import org.springframework.security.web.authentication.rememberme.PersistentToke
 
 import javax.sql.DataSource;
 
-
 @Configuration
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private final UserDetailsService userDetailsService;
@@ -46,7 +45,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .logoutUrl("/logout")
         .and()
         .exceptionHandling().accessDeniedPage("/admin/accessDenied")
-        .and().rememberMe().tokenRepository(persistentTokenRepository());
+        .and().rememberMe().tokenRepository(persistentTokenRepository()).tokenValiditySeconds(30);
 
     }
     @Bean
