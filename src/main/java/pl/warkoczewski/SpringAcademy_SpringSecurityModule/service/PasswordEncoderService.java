@@ -11,8 +11,6 @@ import pl.warkoczewski.SpringAcademy_SpringSecurityModule.util.HashingData;
 import java.util.*;
 import java.util.stream.Collectors;
 
-
-
 @Service
 public class PasswordEncoderService implements PasswordEncoder {
     private final static String pass = "warkocz00";
