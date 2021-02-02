@@ -8,7 +8,7 @@ import javax.persistence.Table;
 import java.sql.Date;
 @Entity
 @Table(name = "persistent_logins")
-public class PersistentRememberMeToken {
+public class PersistentRememberMeLogin {
     @Id
     @Column
     private String series;
