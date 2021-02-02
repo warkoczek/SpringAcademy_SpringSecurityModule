@@ -45,7 +45,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .logoutUrl("/logout")
         .and()
         .exceptionHandling().accessDeniedPage("/admin/accessDenied")
-        .and().rememberMe().tokenRepository(persistentTokenRepository()).tokenValiditySeconds(30);
+        .and().rememberMe().tokenRepository(persistentTokenRepository());
 
     }
     @Bean
