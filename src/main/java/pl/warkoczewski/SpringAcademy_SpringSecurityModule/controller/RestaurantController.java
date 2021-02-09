@@ -14,7 +14,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 public class RestaurantController {
-po    private final RestaurantService restaurantService;
+    private final RestaurantService restaurantService;
 
     @GetMapping("/restaurantsByCity/{city}")
     public ResponseEntity<List<Restaurant>> displayAllRestaurantsByCity(@PathVariable String city){
