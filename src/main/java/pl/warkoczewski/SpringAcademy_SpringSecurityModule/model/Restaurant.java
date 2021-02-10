@@ -15,11 +15,11 @@ public class Restaurant {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    @Enumerated(EnumType.STRING)
-    private City city;
+    private String city;
 
-    public Restaurant(String name, City city) {
+    public Restaurant(String name, String city) {
         this.name = name;
         this.city = city;
     }
+
 }

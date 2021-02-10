@@ -18,7 +18,6 @@ public class DefaultRestaurantService implements RestaurantService {
 
     @Override
     public List<Restaurant> listRestaurantsByCity(String city) {
-        City city1 = City.valueOf(city);
-        return restaurantRepository.findAllByCity(city1);
+        return restaurantRepository.findAllByCity(city);
     }
 }

@@ -1,5 +1,10 @@
 package pl.warkoczewski.SpringAcademy_SpringSecurityModule.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public enum City {
-    BERLIN, POSEN, OSLO, HELSINKI;
+    @JsonProperty("BERLIN")BERLIN,
+    @JsonProperty("POSEN")POSEN,
+    @JsonProperty("OSLO")OSLO,
+    @JsonProperty("HELSINKI")HELSINKI;
 }
