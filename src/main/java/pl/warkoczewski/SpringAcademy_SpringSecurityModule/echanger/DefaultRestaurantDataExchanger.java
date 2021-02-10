@@ -17,11 +17,9 @@ import java.util.stream.Stream;
 public class DefaultRestaurantDataExchanger implements RestaurantDataExchanger {
 
     @Override
-    @EventListener(ApplicationReadyEvent.class)
     public ResponseEntity<String[]> exchange() {
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String[]> exchange = restTemplate.exchange("http://localhost:8080/restaurants", HttpMethod.GET, getHttpEntity(), String[].class);
-        Stream.of(exchange).forEach(System.out::println);
         return exchange;
     }
     private HttpEntity getHttpEntity(){
