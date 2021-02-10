@@ -23,7 +23,7 @@ public class OnStartDataInitializer implements ApplicationRunner {
     private List<Restaurant> saveRestaurants() {
         List<Restaurant> restaurants = new ArrayList<>();
         restaurants.add(new Restaurant("Mc Pizza", City.BERLIN.name()));
-        restaurants.add(new Restaurant("Donald Hut", City.BERLIN.name());
+        restaurants.add(new Restaurant("Donald Hut", City.BERLIN.name()));
         restaurants.add(new Restaurant("Mc Pizza", City.HELSINKI.name()));
         restaurants.add(new Restaurant("Donald Hut", City.HELSINKI.name()));
         restaurants.add(new Restaurant("Donald Hut", City.OSLO.name()));
