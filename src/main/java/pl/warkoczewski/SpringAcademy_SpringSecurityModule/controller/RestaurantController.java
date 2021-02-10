@@ -16,9 +16,9 @@ import java.util.List;
 public class RestaurantController {
     private final RestaurantService restaurantService;
 
-    @GetMapping("/restaurantsByCity/{city}")
-    public ResponseEntity<List<Restaurant>> displayAllRestaurantsByCity(@PathVariable String city){
-        List<Restaurant> restaurants = restaurantService.listRestaurantsByCity(City.valueOf(city));
+    @GetMapping("/restaurants")
+    public ResponseEntity<List<Restaurant>> displayAllRestaurantsByCity(){
+        List<Restaurant> restaurants = restaurantService.listRestaurants();
         if(restaurants.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
