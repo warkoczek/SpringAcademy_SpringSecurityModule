@@ -1,7 +1,5 @@
 package pl.warkoczewski.SpringAcademy_SpringSecurityModule.controller;
 
-import jdk.net.SocketFlow;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,9 +9,12 @@ import pl.warkoczewski.SpringAcademy_SpringSecurityModule.service.RestaurantServ
 import java.util.List;
 
 @RestController
-@RequiredArgsConstructor
 public class RestaurantController {
     private final RestaurantService restaurantService;
+
+    public RestaurantController(RestaurantService restaurantService) {
+        this.restaurantService = restaurantService;
+    }
 
     @GetMapping("/restaurants")
     public ResponseEntity<List<Restaurant>> displayAllRestaurantsByCity(){

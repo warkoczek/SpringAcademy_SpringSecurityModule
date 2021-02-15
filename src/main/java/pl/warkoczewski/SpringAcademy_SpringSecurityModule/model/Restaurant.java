@@ -1,13 +1,9 @@
 package pl.warkoczewski.SpringAcademy_SpringSecurityModule.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@NoArgsConstructor
-@AllArgsConstructor
 @Data
 @Entity
 public class Restaurant {
@@ -22,4 +18,6 @@ public class Restaurant {
         this.city = city;
     }
 
+    public Restaurant() {
+    }
 }
