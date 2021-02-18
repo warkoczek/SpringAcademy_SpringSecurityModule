@@ -5,13 +5,14 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.auth0.jwt.interfaces.RSAKeyProvider;
 import lombok.SneakyThrows;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import org.springframework.stereotype.Service;
 import org.springframework.web.filter.OncePerRequestFilter;
+
 import pl.warkoczewski.SpringAcademy_SpringSecurityModule.util.SecurityConstants;
 
 import javax.servlet.FilterChain;
@@ -19,15 +20,14 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.security.KeyFactory;
-import java.security.NoSuchAlgorithmException;
-import java.security.PublicKey;
+import java.security.*;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
-import java.security.spec.InvalidKeySpecException;
-import java.security.spec.X509EncodedKeySpec;
-import java.util.Collections;
+import java.security.spec.*;
 
+import java.util.Base64;
+import java.util.Collections;
+@Service
 public class JwtFilter extends OncePerRequestFilter {
 
     @SneakyThrows
@@ -39,7 +39,7 @@ public class JwtFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-    private UsernamePasswordAuthenticationToken getUsernamePasswordAuthenticationToken(String authorization) throws InvalidKeySpecException, NoSuchAlgorithmException {
+    protected UsernamePasswordAuthenticationToken getUsernamePasswordAuthenticationToken(String authorization) throws InvalidKeySpecException, NoSuchAlgorithmException {
         JWTVerifier jwtVerifier = JWT.require(buildJwtAlgorithm()).build();
         //JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC512("eShVmYq3t6w9y$B&E)H@McQfTjWnZr4u7x!A%C*F-JaNdRgUkXp2s5v8y/B?E(G+")).build();
         DecodedJWT verify = jwtVerifier.verify(authorization.substring(7));
@@ -52,15 +52,37 @@ public class JwtFilter extends OncePerRequestFilter {
         SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(role);
         return new UsernamePasswordAuthenticationToken(name, null, Collections.singleton(simpleGrantedAuthority));
     }
-
-    private Algorithm buildJwtAlgorithm() throws NoSuchAlgorithmException, InvalidKeySpecException {
+    protected  Algorithm buildJwtAlgorithm() throws NoSuchAlgorithmException, InvalidKeySpecException {
         KeyFactory keyFactory = KeyFactory.getInstance("RSA");
-        byte[] publicKeyBytes = SecurityConstants.PUBLIC_KEY.getBytes();
+        PublicKey publicKey =  keyFactory.generatePublic(getKeySpecForPublicKey());
+        PrivateKey privateKey =  keyFactory.generatePrivate(getKeySpecForPrivateKey());
+        /*byte[] publicKeyBytes = SecurityConstants.PUBLIC_KEY.getBytes();
         RSAPublicKey publicKey = (RSAPublicKey) keyFactory.generatePublic(new X509EncodedKeySpec(publicKeyBytes));
         byte[] privateKeyBytes = SecurityConstants.PRIVATE_KEY.getBytes();
-        RSAPrivateKey privateKey = (RSAPrivateKey) keyFactory.generatePrivate(new X509EncodedKeySpec(privateKeyBytes));
-        Algorithm algorithm = Algorithm.RSA512(publicKey, privateKey);
+        RSAPrivateKey privateKey = (RSAPrivateKey) keyFactory.generatePrivate(new X509EncodedKeySpec(privateKeyBytes));*/
+        Algorithm algorithm = Algorithm.RSA512((RSAPublicKey) publicKey, (RSAPrivateKey) privateKey);
         return algorithm;
     }
+    protected X509EncodedKeySpec getKeySpecForPublicKey(){
+        String publicKeyString = SecurityConstants.PUBLIC_KEY;
+        X509EncodedKeySpec keySpec = new X509EncodedKeySpec(Base64.getDecoder().decode(publicKeyString.getBytes()));
+        //PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(Base64.getEncoder().encode(publicKeyString.getBytes()));
+        return keySpec;
+    }
+    protected PKCS8EncodedKeySpec getKeySpecForPrivateKey(){
+        String privateKeyString = SecurityConstants.PRIVATE_KEY;
+        //X509EncodedKeySpec keySpec = new X509EncodedKeySpec(Base64.getDecoder().decode(privateKeyString.getBytes()));
+        PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(Base64.getDecoder().decode(privateKeyString.getBytes()));
+        return keySpec;
+    }
+    protected String getPublicKeyString(){
+        String publicKeyString = SecurityConstants.PUBLIC_KEY;
+        return publicKeyString;
+    }
+    protected String getPrivateKeyString(){
+        String privateKeyString = SecurityConstants.PRIVATE_KEY;
+        return privateKeyString;
+    }
+
 }
 
