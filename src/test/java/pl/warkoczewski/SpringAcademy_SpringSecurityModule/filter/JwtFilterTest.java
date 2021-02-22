@@ -6,6 +6,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import pl.warkoczewski.SpringAcademy_SpringSecurityModule.util.SecurityConstants;
+
+import java.security.spec.X509EncodedKeySpec;
+import java.util.Base64;
 
 
 @SpringBootTest
@@ -35,9 +39,4 @@ class JwtFilterTest {
         Assert.assertEquals(expectedPrivateKeyString,actualPrivateKeyString);
     }
 
-    @Test
-    void getKeySpecForPublicKeyShouldReturnKeySpecForGivenPublicKeyString() {
-
-
-    }
 }

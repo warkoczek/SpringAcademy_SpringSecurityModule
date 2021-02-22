@@ -17,7 +17,7 @@ public class RestaurantController {
     }
 
     @GetMapping("/restaurants")
-    public ResponseEntity<List<Restaurant>> displayAllRestaurantsByCity(){
+    public ResponseEntity<List<Restaurant>> displayAllRestaurants(){
         List<Restaurant> restaurants = restaurantService.listRestaurants();
         if(restaurants.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

@@ -29,14 +29,26 @@ import java.util.Base64;
 import java.util.Collections;
 @Service
 public class JwtFilter extends OncePerRequestFilter {
+    public JwtFilter() {
+        System.out.println(getKeySpecForPrivateKey());
+        System.out.println(getKeySpecForPrivateKey().getEncoded());
+        System.out.println(getKeySpecForPrivateKey().getFormat());
+    }
 
-    @SneakyThrows
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String authorization = request.getHeader("Authorization");
-        UsernamePasswordAuthenticationToken authenticationToken = getUsernamePasswordAuthenticationToken(authorization);
-        SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-        filterChain.doFilter(request, response);
+        try {
+            UsernamePasswordAuthenticationToken authenticationToken = getUsernamePasswordAuthenticationToken(authorization);
+            SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+            filterChain.doFilter(request, response);
+        }catch(InvalidKeySpecException inValid)
+        {
+            System.out.println("Invalid Key Spec");
+        }catch (NoSuchAlgorithmException noSuchAlgorithmException){
+            System.out.println("No such algorithm");
+        }
+
     }
 
     protected UsernamePasswordAuthenticationToken getUsernamePasswordAuthenticationToken(String authorization) throws InvalidKeySpecException, NoSuchAlgorithmException {
