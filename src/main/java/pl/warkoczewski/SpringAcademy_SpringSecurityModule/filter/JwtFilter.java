@@ -30,9 +30,9 @@ import java.util.Collections;
 @Service
 public class JwtFilter extends OncePerRequestFilter {
     public JwtFilter() {
-        System.out.println(getKeySpecForPrivateKey());
-        System.out.println(getKeySpecForPrivateKey().getEncoded());
-        System.out.println(getKeySpecForPrivateKey().getFormat());
+        System.out.println(getKeySpecForPublicKey());
+        System.out.println(getKeySpecForPublicKey().getEncoded());
+        System.out.println(getKeySpecForPublicKey().getFormat());
     }
 
     @Override
@@ -52,7 +52,7 @@ public class JwtFilter extends OncePerRequestFilter {
     }
 
     protected UsernamePasswordAuthenticationToken getUsernamePasswordAuthenticationToken(String authorization) throws InvalidKeySpecException, NoSuchAlgorithmException {
-        JWTVerifier jwtVerifier = JWT.require(buildJwtAlgorithm()).build();
+        JWTVerifier jwtVerifier = JWT.require(buildJwtPublicAlgorithm()).build();
         //JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC512("eShVmYq3t6w9y$B&E)H@McQfTjWnZr4u7x!A%C*F-JaNdRgUkXp2s5v8y/B?E(G+")).build();
         DecodedJWT verify = jwtVerifier.verify(authorization.substring(7));
         String name = verify.getClaim("name").asString();
@@ -64,7 +64,7 @@ public class JwtFilter extends OncePerRequestFilter {
         SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(role);
         return new UsernamePasswordAuthenticationToken(name, null, Collections.singleton(simpleGrantedAuthority));
     }
-    protected  Algorithm buildJwtAlgorithm() throws NoSuchAlgorithmException, InvalidKeySpecException {
+    protected  Algorithm buildJwtPublicAlgorithm() throws NoSuchAlgorithmException, InvalidKeySpecException {
         KeyFactory keyFactory = KeyFactory.getInstance("RSA");
         PublicKey publicKey =  keyFactory.generatePublic(getKeySpecForPublicKey());
         PrivateKey privateKey =  keyFactory.generatePrivate(getKeySpecForPrivateKey());
@@ -72,12 +72,22 @@ public class JwtFilter extends OncePerRequestFilter {
         RSAPublicKey publicKey = (RSAPublicKey) keyFactory.generatePublic(new X509EncodedKeySpec(publicKeyBytes));
         byte[] privateKeyBytes = SecurityConstants.PRIVATE_KEY.getBytes();
         RSAPrivateKey privateKey = (RSAPrivateKey) keyFactory.generatePrivate(new X509EncodedKeySpec(privateKeyBytes));*/
-        Algorithm algorithm = Algorithm.RSA512((RSAPublicKey) publicKey, (RSAPrivateKey) privateKey);
+        Algorithm algorithm = Algorithm.RSA512((RSAPublicKey) publicKey, null);
         return algorithm;
     }
-    protected X509EncodedKeySpec getKeySpecForPublicKey(){
+    protected  Algorithm buildJwtPrivateAlgorithm() throws NoSuchAlgorithmException, InvalidKeySpecException {
+        KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+        PrivateKey privateKey =  keyFactory.generatePrivate(getKeySpecForPrivateKey());
+        /*byte[] publicKeyBytes = SecurityConstants.PUBLIC_KEY.getBytes();
+        RSAPublicKey publicKey = (RSAPublicKey) keyFactory.generatePublic(new X509EncodedKeySpec(publicKeyBytes));
+        byte[] privateKeyBytes = SecurityConstants.PRIVATE_KEY.getBytes();
+        RSAPrivateKey privateKey = (RSAPrivateKey) keyFactory.generatePrivate(new X509EncodedKeySpec(privateKeyBytes));*/
+        Algorithm algorithm = Algorithm.RSA512(null, (RSAPrivateKey) privateKey);
+        return algorithm;
+    }
+    protected PKCS8EncodedKeySpec getKeySpecForPublicKey(){
         String publicKeyString = SecurityConstants.PUBLIC_KEY;
-        X509EncodedKeySpec keySpec = new X509EncodedKeySpec(Base64.getDecoder().decode(publicKeyString.getBytes()));
+        PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(Base64.getDecoder().decode(publicKeyString.getBytes()));
         //PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(Base64.getEncoder().encode(publicKeyString.getBytes()));
         return keySpec;
     }
